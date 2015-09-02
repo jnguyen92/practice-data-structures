@@ -58,7 +58,7 @@ class Stack:
 ### remove data
     def pop(self):
         if self.is_empty():
-            raise IndexError("the stack is empty")
+            raise Exception("the stack is empty")
             
         else:
             rm_node = self.top
@@ -71,7 +71,7 @@ class Stack:
 ### view data
     def peek(self):
         if self.is_empty():
-            raise IndexError("the stack is emtpy")
+            raise Exception("the stack is emtpy")
             
         else:
             return self.top

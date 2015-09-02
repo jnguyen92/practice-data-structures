@@ -136,7 +136,7 @@ class Linked_List:
     def remove(self, rm_node):
 
         if self.is_empty():
-            raise IndexError("The list is empty")
+            raise Exception("the list is empty")
 
         # throw error
         if not rm_node.has_next() and not rm_node.has_prev() and self.length != 1:
@@ -171,7 +171,7 @@ class Linked_List:
     def pop(self, index = None):
         
         if self.is_empty():
-            raise IndexError("The list is empty")
+            raise Exception("The list is empty")
             
         if index >= self.length:
             raise IndexError("index is out of bounds")
