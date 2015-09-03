@@ -11,38 +11,37 @@ class Node:
         self.data = data
 
     def get_data(self):
-        return self.data        
-        
+        return self.data
+
     def set_next(self, nextNode):
         self.next = nextNode
-        
+
     def get_next(self):
         return self.next
-        
+
     def has_next(self):
         return not (self.next is None)
-        
+
     def set_prev(self, prevNode):
         self.prev = prevNode
-    
+
     def get_prev(self):
         return self.prev
-        
+
     def has_prev(self):
         return not (self.prev is None)
-        
+
     def __eq__(self, other_node):
         return self.data == other_node.get_data()
 
-
 class Linked_List:
-    
+
 ### list data: first item, last item, size ######
     def __init__(self):
         self.length = 0
         self.head = None
         self.tail = None
-    
+
 ### iterations #####
     def __iter__(self):
         self.current = self.head
@@ -58,27 +57,24 @@ class Linked_List:
 
 ### prints the values in the list #######
     def __repr__(self):
-        if self.length == 0:
-            return "doubly linked list of size 0"
-        else:
-            current = self.head
-            rep = str(current)
-            while(current.has_next()):
-                current = current.get_next()
-                rep += " " + str(current)
-            return rep    
-    
+        return "doubly linked list of size %i" % self.length
+
+    def print_list(self):
+        it = iter(self)
+        for i in range(self.length):
+            print it.next()
+
 ### size functions ########
     def __len__(self):
         return self.length
-        
+
     def size(self):
         return self.length
-        
+
     def is_empty(self):
         return self.length == 0
 
-### finds the node right before specified index #########    
+### finds the node right before specified index #########
     def __one_before(self, index):
         index = index - 1
         it = iter(self)
@@ -87,10 +83,10 @@ class Linked_List:
             current = it.next()
             index -= 1
         return current
-        
+
 ### add functions ##########
-    def insert(self, index, data): 
-        
+    def insert(self, index, data):
+
         new_node = Node(data)
 
         if index > self.length:
@@ -101,7 +97,7 @@ class Linked_List:
             self.head = new_node
             self.tail = new_node
 
-        # insert at head    
+        # insert at head
         elif index == 0:
             new_node.set_prev(None)
             new_node.set_next(self.head)
@@ -125,10 +121,10 @@ class Linked_List:
 
         # increment size of list
         self.length+= 1
-        
+
     def push(self, data):
         self.insert(0, data)
-        
+
     def append(self, data):
         self.insert(self.length, data)
 
@@ -139,21 +135,21 @@ class Linked_List:
             raise Exception("the list is empty")
 
         # throw error
-        if not rm_node.has_next() and not rm_node.has_prev() and self.length != 1:
+        if rm_node is self.head is self.tail and self.length != 1:
             raise ValueError("object not in list")
 
         # remove only object
-        elif not rm_node.has_next() and not rm_node.has_prev() and self.length == 1:
+        elif rm_node is self.head is self.tail and self.length == 1:
             self.head = None
             self.tail = None
-                        
+
         # remove head
-        elif not rm_node.has_prev():
+        elif rm_node is self.head:
             self.head = rm_node.get_next()
             self.head.set_prev(None)
-            
+
         # remove tail
-        elif not rm_node.has_next():
+        elif rm_node is self.tail:
             self.tail = rm_node.get_prev()
             self.tail.set_next(None)
 
@@ -164,27 +160,23 @@ class Linked_List:
 
         # decrement list size
         self.length -= 1
-        
+
         # return
         return rm_node
 
     def pop(self, index = None):
-        
+
         if self.is_empty():
-            raise Exception("The list is empty")
-            
+            raise Exception("the list is empty")
+
         if index >= self.length:
             raise IndexError("index is out of bounds")
-            
+
         if index is None:
             index = self.length - 1
-            
-        # remove only node
-        if self.length == 1:
-            return self.remove(self.head)
-            
+
         # remove head
-        elif index == 0:
+        if index == 0:
             return self.remove(self.head)
 
         # remove tail
@@ -195,30 +187,24 @@ class Linked_List:
         elif not (index is None):
             rm_node = self.get(index)
             return self.remove(rm_node)
-        
-        # decrement list size
-        self.length -= 1
-        
-        # return results
-        return rm_node
 
-        
+
 ### retrieve ########
     def get(self, index):
         if index > self.length:
             raise IndexError("index out of bounds")
-        
+
         if index == 0:
             return self.head
-            
+
         return self.__one_before(index).get_next()
-        
+
     def contains(self, data):
         it = iter(self)
-        
+
         for i in range(self.length):
             current = it.next()
             if current.get_data() == data:
                 return i
-                
+
         return -1

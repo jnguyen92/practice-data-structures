@@ -27,11 +27,15 @@ class Node:
 
 class Stack:
     
-### stack data: size and top
+### stack data: size and top ####
     def __init__(self):
         self.length = 0
         self.top = None
-    
+
+### representation #####
+    def __repr__(self):
+        return "stack of size %i" % self.length
+
 ### size functions #####
     def is_empty(self):
         return self.length == 0
@@ -42,7 +46,7 @@ class Stack:
     def __len__(self):
         return self.length
 
-### add data
+### add data ###
     def push(self, data):
         new_node = Node(data)        
         
@@ -55,7 +59,7 @@ class Stack:
         
         self.length += 1
         
-### remove data
+### remove data ####
     def pop(self):
         if self.is_empty():
             raise Exception("the stack is empty")
@@ -67,8 +71,8 @@ class Stack:
         self.length -= 1
         
         return rm_node
-        
-### view data
+
+### view data ####
     def peek(self):
         if self.is_empty():
             raise Exception("the stack is emtpy")

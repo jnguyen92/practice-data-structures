@@ -27,11 +27,17 @@ class Node:
 
 class Queue:
 
+### stack data: size and top ####
     def __init__(self):
         self.length = 0
         self.front = None
         self.back = None
 
+### representation #####
+    def __repr__(self):
+        return "queue of size %i" % self.length
+
+### size functions #####
     def is_empty(self):
         return self.length == 0
 
@@ -41,6 +47,7 @@ class Queue:
     def __len__(self):
         return self.length
 
+### add data ####
     def enqueue(self, data):
         new_node = Node(data)
 
@@ -54,6 +61,7 @@ class Queue:
 
         self.length += 1
 
+### remove data #####
     def dequeue(self):
 
         if self.is_empty():

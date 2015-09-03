@@ -27,3 +27,7 @@ l.push(Node("teehee"))
 it = iter(l)
 it.next()
 l.remove(it.next())
+
+l.pop()
+l.pop(0)
+l.pop() # fails
