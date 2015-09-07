@@ -63,6 +63,7 @@ class Dequeue:
         if self.length == 0:
             self.__add_first(new_node)
         else:
+            self.front.set_prev(new_node)
             new_node.set_next(self.front)
             self.front = new_node
 
@@ -74,6 +75,7 @@ class Dequeue:
         if self.length == 0:
             self.__add_first(new_node)
         else:
+            self.rear.set_next(new_node)
             new_node.set_prev(self.rear)
             self.rear = new_node
 
