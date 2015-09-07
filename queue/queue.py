@@ -21,9 +21,6 @@ class Node:
     def get_next(self):
         return self.next
 
-    def has_next(self):
-        return not (self.next is None)
-
     def __eq__(self, other_node):
         return self.data == other_node.get_data()
 

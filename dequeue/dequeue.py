@@ -90,8 +90,12 @@ class Dequeue:
 
     def remove_front(self):
 
-        if self.length == 1:
+        if self.is_empty():
+            raise Exception("dequeue is empty")
+
+        elif self.length == 1:
             rm_node = self.__rm_one()
+
         else:
             rm_node = self.front
             self.front = rm_node.get_next()
@@ -102,8 +106,12 @@ class Dequeue:
 
     def remove_rear(self):
 
-        if self.length == 1:
+        if self.is_empty():
+            raise Exception("dequeue is empty")
+
+        elif self.length == 1:
             rm_node = self.__rm_one()
+
         else:
             rm_node = self.rear
             self.rear = rm_node.get_prev()
