@@ -64,7 +64,7 @@ class Queue:
     def dequeue(self):
 
         if self.is_empty():
-            raise Exception("queue is emtpy")
+            raise Exception("queue is empty")
 
         else:
             rm_node = self.front

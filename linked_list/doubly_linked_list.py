@@ -197,7 +197,7 @@ class Linked_List:
 
         return self.__one_before(index).get_next()
 
-    def contains(self, data):
+    def index(self, data):
         it = iter(self)
 
         for i in range(self.length):
@@ -206,3 +206,6 @@ class Linked_List:
                 return i
 
         return -1
+
+    def contains(self, data):
+        return self.index(data) != -1
