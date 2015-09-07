@@ -1,3 +1,5 @@
+__author__ = 'Nhuy'
+
 class Node:
     def __init__(self, data = None):
         self.data = data
@@ -19,20 +21,16 @@ class Node:
     def get_next(self):
         return self.next
 
-    def has_next(self):
-        return not (self.next is None)
-
     def set_prev(self, prevNode):
         self.prev = prevNode
 
     def get_prev(self):
         return self.prev
 
-    def has_prev(self):
-        return not (self.prev is None)
-
     def __eq__(self, other_node):
         return self.data == other_node.get_data()
+
+
 
 class Linked_List:
 

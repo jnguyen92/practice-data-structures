@@ -1,3 +1,6 @@
+__author__ = 'Nhuy'
+
+
 class Node:
     def __init__(self, data = None):
         self.data = data
@@ -75,9 +78,7 @@ class Stack:
 ### view data ####
     def peek(self):
         if self.is_empty():
-            raise Exception("the stack is emtpy")
+            raise Exception("the stack is empty")
             
         else:
             return self.top
-            
-        
