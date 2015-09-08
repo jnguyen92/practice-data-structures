@@ -1,25 +1,24 @@
 __author__ = 'Nhuy'
 
 from sorting.sort import *
-import numpy as np
+import random
 
-np.random.seed(1)
-x = np.random.randint(0,100, 20)
-bubble_sort(x)
+random.seed(1)
+x = [random.randint(0, 100) for i in range(20)]
+x
 
-np.random.seed(1)
-x = np.random.randint(0,100, 20)
-selection_sort(x)
+bubs = list(x)
+bubble_sort(bubs)
 
-np.random.seed(1)
-x = np.random.randint(0,100, 20)
-insertion_sort(x)
+sel = list(x)
+selection_sort(sel)
 
-np.random.seed(1)
-x = np.random.randint(0,100, 20)
-merge_sort(x) # failed
+ins = list(x)
+insertion_sort(ins)
 
-np.random.seed(1)
-x = np.random.randint(0,100, 20)
-quick_sort(x)
+merge = list(x)
+merge_sort(merge) # failed
+
+quick = list(x)
+quick_sort(quick)
 

@@ -107,8 +107,6 @@ def merge_sort(arr):
     # return sorted array
     return arr
 
-import numpy
-
 def quick_sort(arr):
 
     aux_quick_sort(arr, 0, len(arr) - 1)
@@ -133,7 +131,9 @@ def median_of_three(arr, min_index, max_index):
     three = [arr[min_index], arr[max_index], arr[(max_index - min_index) / 2 + min_index]]
     max_val = max( three )
     min_val = min( three )
-    med_val = numpy.median( three )
+    three.remove(max_val)
+    three.remove(min_val)
+    med_val = three[0]
 
     # put the min value on left, max value on right and med value in max - 1 position
     arr[min_index] = min_val
