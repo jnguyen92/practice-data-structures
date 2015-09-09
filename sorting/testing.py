@@ -17,7 +17,7 @@ ins = list(x)
 insertion_sort(ins)
 
 merge = list(x)
-merge_sort(merge) # failed
+merge_sort(merge)
 
 quick = list(x)
 quick_sort(quick)

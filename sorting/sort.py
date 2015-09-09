@@ -80,9 +80,7 @@ def merge_sort(arr):
     right = merge_sort(right)
 
     # loop through the indices of the array
-    left_index = 0
-    right_index = 0
-    arr_index = 0
+    left_index = right_index = arr_index = 0
 
     # recreate original array, adding from the sorted left and right in increasing order
     while right_index < len(right) and left_index < len(left):

@@ -209,3 +209,6 @@ class Linked_List:
 
     def contains(self, data):
         return self.index(data) != -1
+
+    def __contains__(self, data):
+        return self.index(data) != -1
