@@ -7,6 +7,7 @@ random.seed(1)
 x = [random.randint(0, 100) for i in range(20)]
 x
 
+# all these should give the same result
 bubs = list(x)
 bubble_sort(bubs)
 

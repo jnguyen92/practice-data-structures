@@ -19,6 +19,6 @@ def is_palindrome(string):
 
 
 
-is_palindrome("ATGTA")
-is_palindrome("ATTGA")
-is_palindrome("I PREFER PI")
+is_palindrome("ATGTA") # TRUE
+is_palindrome("ATTGA") # FALSE
+is_palindrome("I PREFER PI") # TRUE

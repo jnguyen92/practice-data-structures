@@ -33,14 +33,14 @@ def match(open, close):
 
 
 
-is_valid_paren("(((((())")
-is_valid_paren("()")
-is_valid_paren("(}")
-is_valid_paren("({)}")
-is_valid_paren("({[]})")
-is_valid_paren("(((((())")
-is_valid_paren("3 * { (5 + 8) * (10 - 7) }")
-is_valid_paren("3 * { (5 + 8) * (10 - 7) )")
+is_valid_paren("(((((())") # FALSE
+is_valid_paren("()") # TRUE
+is_valid_paren("(}") # FALSE
+is_valid_paren("({)}") # FALSE
+is_valid_paren("({[]})") # TRUE
+is_valid_paren("(((((())") # FALSE
+is_valid_paren("3 * { (5 + 8) * (10 - 7) }") # TRUE
+is_valid_paren("3 * { (5 + 8) * (10 - 7) )") # FALSE
 
 
 
@@ -76,7 +76,7 @@ def is_valid_html(string):
 
 
 
-is_valid_html("<head>This is the title</head>")
-is_valid_html("<html> <head>This is a title</head>")
-is_valid_html("<html>\n<head>\n<title>Example</title>\n</head>\n<body>\n<h1>Hello, world</h1>\n</body>\n</html>")
+is_valid_html("<head>This is the title</head>") # TRUE
+is_valid_html("<html> <head>This is a title</head>") # FALSE
+is_valid_html("<html>\n<head>\n<title>Example</title>\n</head>\n<body>\n<h1>Hello, world</h1>\n</body>\n</html>") # TRUE
 
