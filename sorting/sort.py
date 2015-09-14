@@ -113,7 +113,7 @@ def aux_quick_sort(arr, low, high):
 
     arr, pivot = median_of_three(arr, low, high)
 
-    if high - low <= 3:
+    if high - low <= 2:
         return arr
 
     arr, mid_index = reposition(arr, pivot, low, high - 2)
@@ -167,3 +167,19 @@ def reposition(arr, pivot, low, high):
 
     # return
     return arr, high + 1
+
+from priority_queue.heap import *
+
+def heap_sort(arr):
+    # initialize heap
+    h = Priority_Queue()
+
+    # add values to the heap which will organize it
+    while len(arr) > 0:
+        h.enqueue( arr.pop() )
+    # remove values from heap (greatest first) and adds it to the beginning of the array
+    while not h.is_empty():
+        arr.insert(0, h.dequeue())
+
+    # returns sorted array
+    return arr

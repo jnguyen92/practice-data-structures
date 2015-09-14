@@ -23,3 +23,5 @@ merge_sort(merge)
 quick = list(x)
 quick_sort(quick)
 
+heap = list(x)
+heap_sort(heap)
