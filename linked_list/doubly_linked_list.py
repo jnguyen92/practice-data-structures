@@ -42,16 +42,10 @@ class Linked_List:
 
 ### iterations #####
     def __iter__(self):
-        self.current = self.head
-        return self
-
-    def next(self):
-        if self.current is not None:
-            i = self.current
-            self.current = self.current.get_next()
-            return i
-        else:
-            raise StopIteration("End of list")
+        current = self.head
+        while not current is None:
+            yield current
+            current = current.get_next()
 
 ### prints the values in the list #######
     def __repr__(self):
