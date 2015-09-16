@@ -111,13 +111,17 @@ def quick_sort(arr):
 
 def aux_quick_sort(arr, low, high):
 
+    # sets median of three (1st, middle, last) value to be the pivot, reorganizes by order
     arr, pivot = median_of_three(arr, low, high)
 
+    # if array only has 3 values - median of three ensures that it is ordered
     if high - low <= 2:
         return arr
 
+    # moves all values smaller than pivot before it, greater than pivot after it
     arr, mid_index = reposition(arr, pivot, low, high - 2)
 
+    # quicksorts the halves
     aux_quick_sort(arr, 0, mid_index)
     aux_quick_sort(arr, mid_index, high)
 

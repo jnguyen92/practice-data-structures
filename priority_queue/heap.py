@@ -7,16 +7,21 @@ __author__ = 'Nhuy'
 # in array[k] left child is array[k*2], right child is array[k*2+1], parent is array[k/2]
 
 class Priority_Queue:
+
+# heap is an array
     def __init__(self):
         self.heap = [None]
         self.size = 0
 
+# representation #####
     def __repr__(self):
         return "a heap"
 
+# size functions ######
     def is_empty(self):
         return self.size == 0
 
+# add to heap via while loop comparisons
     def enqueue(self, data):
         if self.is_empty():
             self.heap.append(data)
@@ -33,6 +38,7 @@ class Priority_Queue:
 
             self.heap[current_position] = data
 
+# returns max value, recursively reorganizations the tree #######
     def dequeue(self):
 
         if self.is_empty():
@@ -50,6 +56,7 @@ class Priority_Queue:
         return max
 
 
+# recursion method to find max value and place it at root #####
     def __aux_dequeue(self, index, value):
         left_pos = index * 2
         right_pos = index * 2 + 1

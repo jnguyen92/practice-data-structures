@@ -70,7 +70,7 @@ class BST:
         else:
             return "a binary search tree"
 
-    # print methods (using in order traversal ######
+    # print methods (using in order traversal) ######
     def print_tree(self):
         if self.root is None:
             print "an empty binary search tree"
@@ -92,12 +92,14 @@ class BST:
         self.root = self.__internal_insert(self.root, key, data)
 
     def __internal_insert(self, node, key, data):
+        # base cases: tree has no children or duplicate key value
         if node is None:
             return Tree_Node(key, data)
 
         elif key == node.get_key():
             raise Exception("duplicated key")
 
+        # recursive cases: finds the correct parent node to connect to
         elif key < node.get_key():
             node.set_left( self.__internal_insert( node.get_left(), key, data) )
             return node
@@ -111,13 +113,18 @@ class BST:
         self.root = self.__internal_remove(self.root, key)
 
     def __internal_remove(self, node, key):
+        # base case: node doesn't exist, do nothing
         if key < node.get_key() and node.get_left() is None or key > node.get_key() and node.get_right() is None:
             return None
 
+        # node does exist, returns it and replace it if necessary
         elif key == node.get_key():
+            # if it has no children, do nothing
             if node.get_left() is None and node.get_right() is None:
                 return None
 
+            # if it has 2 children, replace it with the smallest value in its right subtree
+            # and remove the smallest value from its original location
             elif not node.get_left() is None and not node.get_right() is None:
                 small = self.__internal_smallest( node.get_right() )
                 small.set_left( node.get_left() )
@@ -125,12 +132,14 @@ class BST:
                 small.set_right( removed_value )
                 return small
 
+            # if it has 1 child, replace it with is child
             elif node.get_left() is None:
                 return node.get_right()
 
             else:
                 return node.get_left()
 
+        # recursive case: find the node to be deleted, if it exists
         elif key < node.get_key():
             node.set_left( self.__internal_remove( node.get_left(), key) )
             return node
@@ -139,6 +148,7 @@ class BST:
             node.set_right( self.__internal_remove( node.get_right(), key) )
             return node
 
+    # finds the smallest node in subtree (leftmost value)
     def __internal_smallest(self, node):
         current = node
         while not current.get_left() is None:
@@ -149,6 +159,7 @@ class BST:
     def lookup(self, key):
         return self.__internal_lookup(self.root, key)
 
+    # returns a boolean and if present the key's data
     def __internal_lookup(self, node, key):
         if node is None:
             return False
