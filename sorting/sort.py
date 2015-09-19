@@ -1,5 +1,6 @@
 __author__ = 'Nhuy'
 
+# bubble sort: O(n^2) worst case
 def bubble_sort(arr):
 
     # initialize outer loop params
@@ -25,6 +26,7 @@ def bubble_sort(arr):
     # return sorted array
     return arr
 
+# selection sort: O(n^2) worse case
 def selection_sort(arr):
 
     # loop through every position (except the last - since it will already be in order)
@@ -45,6 +47,7 @@ def selection_sort(arr):
     # return sorted array
     return arr
 
+# insertion sort: O(n^2) worst case, O(n) best case
 def insertion_sort(arr):
 
     # loop through and insert value in corresponding position
@@ -64,6 +67,7 @@ def insertion_sort(arr):
     # return sorted array
     return arr
 
+# merge sort: O(nlogn) all cases
 def merge_sort(arr):
 
     # return an empty array if it is only 1 item
@@ -105,6 +109,7 @@ def merge_sort(arr):
     # return sorted array
     return arr
 
+# quick sort: O(nlogn) worst case using median of 3
 def quick_sort(arr):
 
     aux_quick_sort(arr, 0, len(arr) - 1)
@@ -174,6 +179,7 @@ def reposition(arr, pivot, low, high):
 
 from priority_queue.heap import *
 
+# heap sort: O(nlogn)
 def heap_sort(arr):
     # initialize heap
     h = Priority_Queue()
