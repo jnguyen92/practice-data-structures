@@ -1,15 +1,16 @@
 __author__ = 'Nhuy'
 
+from queue.queue import *
+from stack.stack import *
+
 class Graph_Node:
 
-# implement weights?
     def __init__(self, id):
         self.id = id
         self.out_nodes = {}
         self.in_nodes = {}
         self.visited = False
-
-        self.weights = []
+        self.distance = 0
 
     def __repr__(self):
         s = "%s is connected to: " % self.id
@@ -44,8 +45,16 @@ class Graph_Node:
     def is_visited(self):
         return self.visited
 
+    def get_distance(self):
+        return self.distance
+
+    def set_distance(self, distance):
+        if not isinstance(distance, int):
+            raise Exception("invalid value")
+        self.distance = distance
+
 class Graph:
-    # list of nodes to be held in a dictionary/hastable ########
+    # list of nodes to be held in a dictionary/hastable with id as values ########
     def __init__(self):
         self.nodes = {}
         self.n_nodes = 0
@@ -55,7 +64,7 @@ class Graph:
         i = str(id)
         return i in self.nodes.keys()
 
-    # returns node if it exists or else returns -1
+    # returns node if it exists or raises an exception
     def get_node(self, id):
         i = str(id)
         try:
@@ -91,73 +100,89 @@ class Graph:
         visit_status = {key: value.is_visited() for key, value in self.nodes.items()}
         return visit_status
 
-    # change all visit status to 0
+    # change all visit status to False
     def set_all_not_visited(self):
         for k in self.nodes.keys():
             self.nodes[k].set_visited(False)
 
+    # change all distances to 0
+    def clear_all_distances(self):
+        for k in self.nodes.keys():
+            self.nodes[k].set_distance(0)
+
     # search methods #########
 
-    # if there are no returned values from dfs
-    def is_connected(self):
-        self.set_all_not_visited()
-        a_key = self.nodes.keys()[0]
-        not_connected = dfs(self, a_key, False)
-        return len(not_connected) == 0
+    # if there are no returned values from dfs for every key
+    def is_strong_connected(self):
+        result = []
+        for k in self.nodes.keys():
+            self.set_all_not_visited()
+            not_connected = dfs(self, k)
+            result.append( len(not_connected) == 0 )
+        return all(result)
 
-    # if to node is marked visited
+    # if there are no returned values from 2-way dfs for every key
+    def is_weak_connected(self):
+        result = []
+        for k in self.nodes.keys():
+            self.set_all_not_visited()
+            not_connected = dfs_2way(self, k, False, False)
+            result.append( len(not_connected) == 0 )
+        return all(result)
+
+    # if to_node is marked visited
     def is_path(self, from_id, to_id):
         self.set_all_not_visited()
-        dfs(self, from_id, False)
+        dfs(self, from_id)
         return self.get_node(to_id).is_visited()
 
     # reachable nodes are the ones that are not returned by dfs
     def nodes_from(self, from_id):
         self.set_all_not_visited()
         all_nodes = self.nodes.keys()
-        not_connected = dfs(self, from_id, False)
+        not_connected = dfs(self, from_id)
         # set difference
         reachable = list( set(all_nodes).difference(not_connected) )
         reachable.remove( str(from_id) )
         return reachable
 
-
-    # shortest path for no weights
+    # shortest path for no weights using bfs variant: shortest path or -1 if it doesn't exist
     def shortest_path(self, from_id, to_id):
         self.set_all_not_visited()
+        self.clear_all_distances()
 
         # initialize queue
         q = Queue()
 
-        # find start node and add it to queue
+        # find start node and add it to queue, set distance to 0
         start_node = self.get_node(from_id)
+        start_node.set_distance(0)
         q.enqueue(start_node)
-        path = 1
 
         while not q.is_empty():
-            # retrieves first in line, signs guestbook, print info
+            # retrieves first in line, signs guestbook
             current = q.dequeue().get_data()
             current.set_visited(True)
 
-            # adds outgoing nodes from current to queue
+            # obtains all outgoing nodes adds it to queue if not visited
             outgoing = current.get_outgoing()
             for k in outgoing.keys():
                 node = outgoing[k]
-                if str(to_id) == node.get_id():
-                    return path += 1
                 if not node.is_visited():
+                    # set the distance from from_node, adds to queue
+                    node.set_distance(1 + current.get_distance())
                     q.enqueue( node )
+                    # if the node is the to_node, return the distance
+                    if node.get_id() == str(to_id):
+                        return node.get_distance()
 
-            path += 1
-
+        # if there is no path, return -1
         return -1
 
-
-from queue.queue import *
-from stack.stack import *
+# graph traversals: returns an array of keys referring to nodes that have not been visited
 
 # depth-first search
-def dfs(graph, start_id, find_not_connected = True):
+def dfs(graph, start_id, find_not_connected = False, print_val = False):
     # initialize the stack
     s = Stack()
 
@@ -170,7 +195,8 @@ def dfs(graph, start_id, find_not_connected = True):
         # retrieves top of stack, signs guestbook, and prints info
         current = s.pop().get_data()
         current.set_visited(True)
-        print current.get_id()
+        if print_val:
+            print current.get_id()
 
         # adds outgoing nodes from current to stack
         outgoing = current.get_outgoing()
@@ -187,9 +213,8 @@ def dfs(graph, start_id, find_not_connected = True):
     else:
         return not_visit_node
 
-
 # breadth-first search
-def bfs(graph, start_id, find_not_connected = True):
+def bfs(graph, start_id, find_not_connected = False, print_val = False):
     # initialize queue
     q = Queue()
 
@@ -201,7 +226,8 @@ def bfs(graph, start_id, find_not_connected = True):
         # retrieves first in line, signs guestbook, print info
         current = q.dequeue().get_data()
         current.set_visited(True)
-        print current.get_id()
+        if print_val:
+            print current.get_id()
 
         # adds outgoing nodes from current to queue
         outgoing = current.get_outgoing()
@@ -218,3 +244,41 @@ def bfs(graph, start_id, find_not_connected = True):
     else:
         return not_visit_node
 
+# depth first search using preceders and sucessors for weak connections
+def dfs_2way(graph, start_id, find_not_connected = False, print_val = False):
+    # initialize the stack
+    s = Stack()
+
+    # find the start node and add it to stack
+    start_node = graph.get_node(start_id)
+    s.push(start_node)
+
+    # traverse graph
+    while not s.is_empty():
+        # retrieves top of stack, signs guestbook, and prints info
+        current = s.pop().get_data()
+        current.set_visited(True)
+        if print_val:
+            print current.get_id()
+
+        # adds incoming nodes from current to stack
+        incoming = current.get_incoming()
+        for k in incoming.keys():
+            node = incoming[k]
+            if not node.is_visited():
+                s.push( node )
+
+        # adds outgoing nodes from current to stack
+        outgoing = current.get_outgoing()
+        for k in outgoing.keys():
+            node = outgoing[k]
+            if not node.is_visited():
+                s.push( node )
+
+    # if the graph is not circular from the start_node, then we need to find those unvisited nodes
+    v = graph.all_visited()
+    not_visit_node = [key for key, value in v.items() if value is False]
+    if find_not_connected and len(not_visit_node) > 0:
+        dfs(graph, not_visit_node[0], find_not_connected)
+    else:
+        return not_visit_node
