@@ -114,7 +114,7 @@ class BST:
 
     def __internal_remove(self, node, key):
         # base case: node doesn't exist, do nothing
-        if key < node.get_key() and node.get_left() is None or key > node.get_key() and node.get_right() is None:
+        if node is None:
             return None
 
         # node does exist, returns it and replace it if necessary
@@ -127,8 +127,8 @@ class BST:
             # and remove the smallest value from its original location
             elif not node.get_left() is None and not node.get_right() is None:
                 small = self.__internal_smallest( node.get_right() )
+                removed_value = self.__internal_remove( node.get_right(), small.get_key() )
                 small.set_left( node.get_left() )
-                removed_value = small.set_right( self.__internal_remove( node.get_right(), small.get_key() ) )
                 small.set_right( removed_value )
                 return small
 
