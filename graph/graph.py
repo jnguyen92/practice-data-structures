@@ -117,7 +117,8 @@ class Graph:
         result = []
         for k in self.nodes.keys():
             self.set_all_not_visited()
-            not_connected = dfs(self, k)
+            dfs(self, k)
+            not_connected = [n.get_id() for k, n in self.nodes.items() if not n.is_visited()]
             result.append( len(not_connected) == 0 )
         return all(result)
 
@@ -126,7 +127,8 @@ class Graph:
         result = []
         for k in self.nodes.keys():
             self.set_all_not_visited()
-            not_connected = dfs_2way(self, k)
+            dfs_2way(self, k)
+            not_connected = [n.get_id() for k, n in self.nodes.items() if not n.is_visited()]
             result.append( len(not_connected) == 0 )
         return all(result)
 
@@ -140,9 +142,8 @@ class Graph:
     def nodes_from(self, from_id):
         self.set_all_not_visited()
         all_nodes = self.nodes.keys()
-        not_connected = dfs(self, from_id)
-        # set difference
-        reachable = list( set(all_nodes).difference(not_connected) )
+        dfs(self, from_id)
+        reachable = [n.get_id() for k, n in self.nodes.items() if n.is_visited()]
         reachable.remove( str(from_id) )
         return reachable
 
@@ -206,11 +207,6 @@ def dfs(graph, start_id, print_val = False):
                 node.set_visited(True)
                 s.push( node )
 
-    # if the graph is not circular from the start_node, then we need to find those unvisited nodes
-    v = graph.all_visited()
-    not_visit_node = [key for key, value in v.items() if value is False]
-    return not_visit_node
-
 # breadth-first search
 def bfs(graph, start_id, print_val = False):
     # initialize queue
@@ -234,10 +230,6 @@ def bfs(graph, start_id, print_val = False):
             if not node.is_visited():
                 q.enqueue( node )
 
-    # if the graph is not circular from the start_node, then we need to find those unvisited nodes
-    v = graph.all_visited()
-    not_visit_node = [key for key, value in v.items() if value is False]
-    return not_visit_node
 
 # depth first search using preceders and sucessors for weak connections
 def dfs_2way(graph, start_id, print_val = False):
@@ -271,8 +263,3 @@ def dfs_2way(graph, start_id, print_val = False):
             if not node.is_visited():
                 node.set_visited(True)
                 s.push( node )
-
-    # if the graph is not circular from the start_node, then we need to find those unvisited nodes
-    v = graph.all_visited()
-    not_visit_node = [key for key, value in v.items() if value is False]
-    return not_visit_node
