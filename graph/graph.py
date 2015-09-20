@@ -126,7 +126,7 @@ class Graph:
         result = []
         for k in self.nodes.keys():
             self.set_all_not_visited()
-            not_connected = dfs_2way(self, k, False, False)
+            not_connected = dfs_2way(self, k)
             result.append( len(not_connected) == 0 )
         return all(result)
 
@@ -182,19 +182,19 @@ class Graph:
 # graph traversals: returns an array of keys referring to nodes that have not been visited
 
 # depth-first search
-def dfs(graph, start_id, find_not_connected = False, print_val = False):
+def dfs(graph, start_id, print_val = False):
     # initialize the stack
     s = Stack()
 
     # find the start node and add it to stack
     start_node = graph.get_node(start_id)
+    start_node.set_visited(True)
     s.push(start_node)
 
     # traverse graph
     while not s.is_empty():
         # retrieves top of stack, signs guestbook, and prints info
         current = s.pop().get_data()
-        current.set_visited(True)
         if print_val:
             print current.get_id()
 
@@ -203,18 +203,16 @@ def dfs(graph, start_id, find_not_connected = False, print_val = False):
         for k in outgoing.keys():
             node = outgoing[k]
             if not node.is_visited():
+                node.set_visited(True)
                 s.push( node )
 
     # if the graph is not circular from the start_node, then we need to find those unvisited nodes
     v = graph.all_visited()
     not_visit_node = [key for key, value in v.items() if value is False]
-    if find_not_connected and len(not_visit_node) > 0:
-        dfs(graph, not_visit_node[0], find_not_connected)
-    else:
-        return not_visit_node
+    return not_visit_node
 
 # breadth-first search
-def bfs(graph, start_id, find_not_connected = False, print_val = False):
+def bfs(graph, start_id, print_val = False):
     # initialize queue
     q = Queue()
 
@@ -239,25 +237,22 @@ def bfs(graph, start_id, find_not_connected = False, print_val = False):
     # if the graph is not circular from the start_node, then we need to find those unvisited nodes
     v = graph.all_visited()
     not_visit_node = [key for key, value in v.items() if value is False]
-    if find_not_connected and len(not_visit_node) > 0:
-        dfs(graph, not_visit_node[0], find_not_connected)
-    else:
-        return not_visit_node
+    return not_visit_node
 
 # depth first search using preceders and sucessors for weak connections
-def dfs_2way(graph, start_id, find_not_connected = False, print_val = False):
+def dfs_2way(graph, start_id, print_val = False):
     # initialize the stack
     s = Stack()
 
     # find the start node and add it to stack
     start_node = graph.get_node(start_id)
+    start_node.set_visited(True)
     s.push(start_node)
 
     # traverse graph
     while not s.is_empty():
         # retrieves top of stack, signs guestbook, and prints info
         current = s.pop().get_data()
-        current.set_visited(True)
         if print_val:
             print current.get_id()
 
@@ -266,6 +261,7 @@ def dfs_2way(graph, start_id, find_not_connected = False, print_val = False):
         for k in incoming.keys():
             node = incoming[k]
             if not node.is_visited():
+                node.set_visited(True)
                 s.push( node )
 
         # adds outgoing nodes from current to stack
@@ -273,12 +269,10 @@ def dfs_2way(graph, start_id, find_not_connected = False, print_val = False):
         for k in outgoing.keys():
             node = outgoing[k]
             if not node.is_visited():
+                node.set_visited(True)
                 s.push( node )
 
     # if the graph is not circular from the start_node, then we need to find those unvisited nodes
     v = graph.all_visited()
     not_visit_node = [key for key, value in v.items() if value is False]
-    if find_not_connected and len(not_visit_node) > 0:
-        dfs(graph, not_visit_node[0], find_not_connected)
-    else:
-        return not_visit_node
+    return not_visit_node

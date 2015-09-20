@@ -18,9 +18,9 @@ g.link_nodes(4, 5)
 
 # searches test
 g.set_all_not_visited()
-dfs(g, 0, False, True) # returns 0, 4, 5, 2, 3, 1 or 0, 2, 3, 1, 4, 5
+dfs(g, 0, True) # returns 0, 4, 5, 2, 3, 1 or 0, 2, 3, 1, 4, 5
 g.set_all_not_visited()
-bfs(g, 0, False, True) # prints 0, 4, 2, 5, 3, 1 (or slight switches due to which came first in storage array)
+bfs(g, 0, True) # prints 0, 4, 2, 5, 3, 1 (or slight switches due to which came first in storage array)
 
 # test traversal functions
 g.is_strong_connected() # False
@@ -28,7 +28,7 @@ g.is_weak_connected() # True
 g.is_path(2, 4) # True
 g.is_path(4, 5) # True
 g.is_path(4, 2) # False
-g.nodes_from(4) # 4,5
+g.nodes_from(4) # 5
 g.nodes_from(0) # all
 g.shortest_path(0, 5) # 2
 g.shortest_path(0, 1) # 3
@@ -60,4 +60,20 @@ stat.is_path("849", "760") # False
 stat.shortest_path(609, "graduate!") # 3
 
 stat.set_all_not_visited()
-dfs(stat, 849, True, True) # should list all of the values, since find not connected is set to True
+dfs(stat, 849, True) # 849, 850, 998, graduate!
+
+
+g = Graph()
+
+for i in ["A", "B", "C", "D", "E"]:
+    g.add_node(i)
+
+g.link_nodes("A", "B")
+g.link_nodes("A", "C")
+g.link_nodes("A", "D")
+g.link_nodes("C", "E")
+g.link_nodes("C", "D")
+g.link_nodes("E", "D")
+g.link_nodes("B", "C")
+
+dfs(g, "A", True) # should contain no duplicates
