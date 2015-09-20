@@ -60,3 +60,6 @@ l.pop(0)
 l.pop() # empty list after this
 l.pop()
 # should fail - empty list
+
+l.append("testing")
+l.rm("testing")

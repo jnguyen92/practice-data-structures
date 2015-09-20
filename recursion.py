@@ -33,9 +33,3 @@ def num_to_str(num):
         return ""
     else:
         return num_to_str(num/10) + string_num[ num % 10 ]
-
-# function to determine how many coins to given customer as change
-def coin_machine():
-
-# function to determine if maze is exitable
-def maze():

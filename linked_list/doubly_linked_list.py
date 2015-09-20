@@ -70,11 +70,14 @@ class Linked_List:
     def __one_before(self, index):
         index = index - 1
         it = iter(self)
-        current = it.next()
-        while index > 0:
+        try:
             current = it.next()
-            index -= 1
-        return current
+            while index > 0:
+                current = it.next()
+                index -= 1
+            return current
+        except:
+            return
 
 ### add functions ##########
     def insert(self, index, data):
@@ -121,6 +124,15 @@ class Linked_List:
         self.insert(self.length, data)
 
 ### remove functions ###########
+    def rm(self, data):
+        i = self.index(data)
+        if i == -1:
+            raise Exception("item does not exist")
+        else:
+            node = self.get(i)
+            self.remove(node)
+
+    # this remove only takes the node to be removed rather than a value
     def remove(self, rm_node):
 
         if self.is_empty():
@@ -182,6 +194,7 @@ class Linked_List:
 
 
 ### retrieve ########
+
     def get(self, index):
         if index > self.length:
             raise IndexError("index out of bounds")
@@ -193,13 +206,13 @@ class Linked_List:
 
     def index(self, data):
         it = iter(self)
-
-        for i in range(self.length):
-            current = it.next()
-            if current.get_data() == data:
-                return i
-
-        return -1
+        try:
+            for i in range(self.length):
+                current = it.next()
+                if current.get_data() == data:
+                    return i
+        except:
+            return -1
 
     def contains(self, data):
         return self.index(data) != -1
