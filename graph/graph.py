@@ -54,12 +54,18 @@ class Graph_Node:
         self.distance = distance
 
 class Graph:
-    # list of nodes to be held in a dictionary/hastable with id as values ########
+    """
+    Constructor: initialize dictionary of nodes and number of nodes
+    """
     def __init__(self):
         self.nodes = {}
         self.n_nodes = 0
 
-    # retrieval methods ###########
+    """
+    Retrieval methods:
+    Parameters: id
+    Returns: node(s) requested
+    """
     def __contains__(self, id):
         i = str(id)
         return i in self.nodes.keys()
@@ -72,82 +78,129 @@ class Graph:
         except KeyError:
             raise Exception("node does not exist")
 
+    # returns all nodes
     def get_all_nodes(self):
         return self.nodes
 
-    # insertion methods #####
+    """
+    Insertion Methods:
+    Parameters: id
+    Returns: NA
+    """
     def add_node(self, id):
+        # converts id to a string (if not already)
         i = str(id)
+
+        # generate a new graph node from id
         new_node = Graph_Node(i)
+
+        # exception handling for duplicated nodes
         if new_node.get_id() in self.nodes.keys():
             raise Exception("duplicated id")
+
+        # adds node to dictionary by id/key
         else:
             self.nodes[ new_node.get_id() ] = new_node
             self.n_nodes += 1
 
-    # link generation methods - doubly linked ######
+
+    """
+    Link generation methods: doubly linked
+    Parameters: id of 2 graph nodes
+    """
     def link_nodes(self, from_id, to_id):
+        # obtains nodes
         from_node = self.get_node(from_id)
         to_node = self.get_node(to_id)
 
+        # adds links for two nodes
         from_node.add_outgoing( to_node )
         to_node.add_incoming( from_node )
 
-    # visit status #########
+    """
+    Visit Status Methods:
+    mostly used in graph traversal methods
+    """
 
-    # returns boolean vector of visit status
+    # Returns: boolean vector of visit status for each graph node
     def all_visited(self):
         visit_status = {key: value.is_visited() for key, value in self.nodes.items()}
         return visit_status
 
-    # change all visit status to False
+    # set all visit status to False, used before traversals
     def set_all_not_visited(self):
         for k in self.nodes.keys():
             self.nodes[k].set_visited(False)
 
-    # change all distances to 0
+    # change all distances to 0, used before traversals
     def clear_all_distances(self):
         for k in self.nodes.keys():
             self.nodes[k].set_distance(0)
 
-    # search methods #########
-
-    # if there are no returned values from dfs for every key
+    """
+    Search methods
+    """
+    # test for strong connectivity
+    # Returns: boolean - is it strongly connected?
     def is_strong_connected(self):
         result = []
+
+        # loops through all nodes and runs dfs, finds the nodes that were not visited
         for k in self.nodes.keys():
             self.set_all_not_visited()
             dfs(self, k)
             not_connected = [n.get_id() for k, n in self.nodes.items() if not n.is_visited()]
             result.append( len(not_connected) == 0 )
+
+        # if graph is strongly connected - all nodes should be visited with each iteration of loop
         return all(result)
 
-    # if there are no returned values from 2-way dfs for every key
+    # tests for weak connectivity
+    # Returns: boolean
     def is_weak_connected(self):
         result = []
+
+        # loops through all nodes and runs 2-way dfs, finds the nodes that were not visited
         for k in self.nodes.keys():
             self.set_all_not_visited()
             dfs_2way(self, k)
             not_connected = [n.get_id() for k, n in self.nodes.items() if not n.is_visited()]
             result.append( len(not_connected) == 0 )
+
+        # if the graph is weakly connected - all nodes should be visited with each iteration of loop
         return all(result)
 
-    # if to_node is marked visited
+    # finds a path from 1 node to another
+    # Parameters: 2 strings indicating the start and end
+    # Returns: boolean
     def is_path(self, from_id, to_id):
+        # runs a dfs from the start position
         self.set_all_not_visited()
         dfs(self, from_id)
+
+        # if there is a path, the to node should be marked visited
         return self.get_node(to_id).is_visited()
 
     # reachable nodes are the ones that are not returned by dfs
+    # Parameters: string indicating start position
+    # Returns: array of reachable nodes by id
     def nodes_from(self, from_id):
+        # runs dfs from the start position
         self.set_all_not_visited()
-        all_nodes = self.nodes.keys()
         dfs(self, from_id)
+
+        # loops through nodes and finds the ones that are visited
         reachable = [n.get_id() for k, n in self.nodes.items() if n.is_visited()]
+
+        # removes the from id (obviously set to visited since we started from there)
         reachable.remove( str(from_id) )
+
+        # returns the list of reachable nodes
         return reachable
 
     # shortest path for no weights using bfs variant: shortest path or -1 if it doesn't exist
+    # Parameters: 2 strings, the start and end node by id
+    # Returns: the length of the shortest path
     def shortest_path(self, from_id, to_id):
         self.set_all_not_visited()
         self.clear_all_distances()
@@ -170,7 +223,7 @@ class Graph:
             for k in outgoing.keys():
                 node = outgoing[k]
                 if not node.is_visited():
-                    # set the distance from from_node, adds to queue
+                    # set the distance as 1 +  from_node distance, adds to queue
                     node.set_distance(1 + current.get_distance())
                     q.enqueue( node )
                     # if the node is the to_node, return the distance
@@ -180,7 +233,10 @@ class Graph:
         # if there is no path, return -1
         return -1
 
-# graph traversals: returns an array of keys referring to nodes that have not been visited
+
+"""
+Graph Traversals
+"""
 
 # depth-first search
 def dfs(graph, start_id, print_val = False):

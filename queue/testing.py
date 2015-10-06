@@ -10,6 +10,8 @@ player_list = ["Sophia", "Emma", "Jackson", "Olivia", "Caden",
      "Lily", "Emily", "Jacob", "Logan", "Madelyn"]
 
 # hot potato with fixed n
+# Parameters: a player list (array) and a fixed n (int)
+# Returns: prints out who is eliminated and returns the winner
 def hot_potato(player_list, n):
     # initialize the game
     q = Queue()
@@ -32,6 +34,7 @@ def hot_potato(player_list, n):
     print "The last one standing is %s" % winner
     return winner
 
+# run on data
 hot_potato(player_list, 2)
 
 
@@ -39,6 +42,8 @@ import random
 random.seed(1)
 
 # hot potato with random n
+# Parameters: player list (array)
+# Returns: prints out who is eliminated and returns the winner
 def hot_potato(player_list):
     # initialize the game
     q = Queue()
@@ -61,4 +66,5 @@ def hot_potato(player_list):
     print "The last one standing is %s" % winner
     return winner
 
+# run on data
 hot_potato(player_list)

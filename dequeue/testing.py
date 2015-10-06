@@ -3,6 +3,8 @@ __author__ = 'Nhuy'
 from dequeue.dequeue import *
 
 # Testing whether string is palindrome
+# Parameters: string
+# Returns: boolean
 def is_palindrome(string):
     # initialize the dequeue
     d = Dequeue()

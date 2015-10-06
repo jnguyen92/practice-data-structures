@@ -59,11 +59,16 @@ class Tree_Node:
 
 class BST:
 
-    # tree: root node
+    """
+    Constructor: initalize the tree with the root node
+    """
     def __init__(self):
         self.root = None
 
-    # representation ########
+    """
+    Representation:
+    prints the tree
+    """
     def __repr__(self):
         if self.root is None:
             return "an empty binary search tree"
@@ -87,10 +92,16 @@ class BST:
         if not node.get_right() is None:
             self.__internal_print( node.get_right() )
 
-    # insert methods ######
+    """
+    Insertion methods: recursively inserts data into tree by the key; keys should be unique
+    Parameters: key (int) and data (any type)
+    Returns: NA
+    """
     def insert(self, key, data):
         self.root = self.__internal_insert(self.root, key, data)
 
+    # Parameters: node (node object to add to), key (int), data (any type)
+    # Returns: node with the new data added
     def __internal_insert(self, node, key, data):
         # base cases: tree has no children or duplicate key value
         if node is None:
@@ -108,10 +119,16 @@ class BST:
             node.set_right( self.__internal_insert( node.get_right(), key, data))
             return node
 
-    # remove methods #####
+    """
+    Removal methods: recursively deletes data from tree by key
+    Parameters: key (int)
+    Returns: NA
+    """
     def remove(self, key):
         self.root = self.__internal_remove(self.root, key)
 
+    # Parameters: node (node object to adjust after removal), key (int)
+    # Returns: node corresponding to the key or None if the key doesn't exist
     def __internal_remove(self, node, key):
         # base case: node doesn't exist, do nothing
         if node is None:
@@ -148,7 +165,9 @@ class BST:
             node.set_right( self.__internal_remove( node.get_right(), key) )
             return node
 
-    # finds the smallest node in subtree (leftmost value)
+    # Finds the smallest node in the subtree from the node (leftmost value
+    # Parameters: node to start from
+    # Returns: the smallest node
     def __internal_smallest(self, node):
         current = node
         while not current.get_left() is None:
@@ -156,17 +175,26 @@ class BST:
         return current
 
     # search keys ##########
+    """
+    Lookup methods: finds a specified key
+    Parameters: a key (int)
+    Returns: False if key doesn't exist, tuple of True and data (any type) if key exists in tree
+    """
     def lookup(self, key):
         return self.__internal_lookup(self.root, key)
 
-    # returns a boolean and if present the key's data
+    # recursive function to lookup key
+    # Parameters: the key
     def __internal_lookup(self, node, key):
+        # if cannot find the node, it doesn't exist so return False
         if node is None:
             return False
 
+        # if node exists, returns True and the data in a tuple
         elif key == node.get_key():
             return True, node.get_data()
 
+        # look in left & right children for the node
         elif key < node.get_key():
             return self.__internal_lookup(node.get_left(), key)
 

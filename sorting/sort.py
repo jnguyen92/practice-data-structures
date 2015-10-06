@@ -1,6 +1,11 @@
 __author__ = 'Nhuy'
 
-# bubble sort: O(n^2) worst case
+
+"""
+Bubble sort: O(n^2) worst case
+Parameters: array
+Returns: sorted array (original array is sorted too)
+"""
 def bubble_sort(arr):
 
     # initialize outer loop params
@@ -26,7 +31,11 @@ def bubble_sort(arr):
     # return sorted array
     return arr
 
-# selection sort: O(n^2) worse case
+"""
+Selection sort: O(n^2) worse case
+Parameters: array
+Returns: sorted array (original array is sorted too)
+"""
 def selection_sort(arr):
 
     # loop through every position (except the last - since it will already be in order)
@@ -47,7 +56,11 @@ def selection_sort(arr):
     # return sorted array
     return arr
 
-# insertion sort: O(n^2) worst case, O(n) best case
+"""
+Insertion sort: O(n^2) worst case, O(n) best case
+Parameters: array
+Returns: sorted array (original array is sorted too)
+"""
 def insertion_sort(arr):
 
     # loop through and insert value in corresponding position
@@ -67,7 +80,11 @@ def insertion_sort(arr):
     # return sorted array
     return arr
 
-# merge sort: O(nlogn) all cases
+"""
+Merge sort: O(nlogn) all cases
+Parameters: array
+Returns: sorted array (original array is sorted too)
+"""
 def merge_sort(arr):
 
     # return an empty array if it is only 1 item
@@ -109,7 +126,12 @@ def merge_sort(arr):
     # return sorted array
     return arr
 
-# quick sort: O(nlogn) worst case using median of 3
+
+"""
+Quick sort: O(nlogn) worst case using median of 3
+Parameters: array
+Returns: sorted array (original array is sorted too)
+"""
 def quick_sort(arr):
 
     aux_quick_sort(arr, 0, len(arr) - 1)
@@ -132,6 +154,10 @@ def aux_quick_sort(arr, low, high):
 
     return arr
 
+# median of 3: finds the median of 3 values and reorders those values where min_index = min value, max_index = max value
+# max_index - 1 = mid_value
+# Parameters: min_index & max_index to consider
+# Returns: array in which min_index = min value, max_index = max value, max_index - 1 = mid_value
 def median_of_three(arr, min_index, max_index):
 
     # obtain the values of the min, med, max
@@ -151,22 +177,30 @@ def median_of_three(arr, min_index, max_index):
     # return array and pivot value
     return arr, med_val
 
+# Reposition: moves all values greater than the pivot to the right of the pivot and all values less than pivot to the left of pivot
+# Parameters: pivot (middle value), low (index of leftmost value), high (index of rightmost value)
 def reposition(arr, pivot, low, high):
 
+    # position of the pivot is just after the high
     pivot_index = high + 1
 
-    # loop through indices and move all values less than pivot to left side,
-    # values greater than pivot to right side
+    # loop through indices and move all values less than pivot to left side, values greater than pivot to right side
+    # stop when the pointers for high and low overlap - this is when everything is in place
     while low < high:
+        # if the value at low index is greater than pivot, then swap it with the high value
+        # decrement the high value to consider the next position
         if arr[low] > pivot:
             temp = arr[high]
             arr[high] = arr[low]
             arr[low] = temp
             high -= 1
+        # otherwise increment the low value to consider the next position
         else:
             low += 1
 
     # when we exit the loop, low = high; this value can be greater than or equal to pivot
+    # find out which it is and then put pivot in its right position
+    # (all values < pivot to the left, all values > pivot to right of pivot)
     if arr[pivot_index] < arr[high]:
         arr[pivot_index] = arr[high]
         arr[high] = pivot
@@ -174,12 +208,17 @@ def reposition(arr, pivot, low, high):
         arr[pivot_index] = arr[high + 1]
         arr[high + 1] = pivot
 
-    # return
+    # return the array and position of the pivot
     return arr, high + 1
 
+
+"""
+Heap sort: O(nlogn)
+Parameters: array
+Returns: sorted array (original array is sorted too)
+"""
 from priority_queue.heap import *
 
-# heap sort: O(nlogn)
 def heap_sort(arr):
     # initialize heap
     h = Priority_Queue()
